@@ -197,6 +197,15 @@ int main(int argc, char **argv)
 
     fclose(fIn);
 
+    FILE *fraw = fopen("image.raw", "w+");
+    uint16_t pixel;
+    for(uint32_t i = 0; i < w * h; i++)
+    {
+        pixel = RGB565_FROM_RGB(data[i * numChannels], data[(i * 3) + 1], data[(i * 3) + 2]);
+        fwrite(&pixel, 1, 2, fraw);
+    }
+    fclose(fraw);
+
     FILE *fOutH = fopen(pbOutHeaderNameDirectory, "w+");
 
     fprintf(fOutH, "/*\n");
